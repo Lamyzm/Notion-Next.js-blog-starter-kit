@@ -5,7 +5,6 @@ import { domain } from 'lib/config';
 import { resolveNotionPage } from 'lib/resolve-notion-page';
 
 export const getStaticProps = async a => {
-  console.log('엄준식임');
   try {
     const props = await resolveNotionPage(domain);
     return { props, revalidate: 10 };
