@@ -5,7 +5,7 @@ export default siteConfig({
   rootNotionPageId: '04431c24227545c4bfda0261f136699f',
   // if you want to restrict pages to a single notion workspace (optional)
   // (this should be a Notion ID; see the docs for how to extract this)
-  rootNotionSpaceId: null,
+  rootNotionSpaceId: 'eaa8cae3-750f-477e-9f30-3d5f233c3c32',
 
   name: '2skydev blog',
   domain: 'lnotion-next-js-blog-starter-kit-git-main-levijou-boos-projects.vercel.app',
