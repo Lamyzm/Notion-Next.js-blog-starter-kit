@@ -68,12 +68,16 @@ export class NotionAPI {
     }
 
     // CUSTOM: 작성자 유저 정보 가져오도록 처리
-    const pageBlockId = Object.keys(recordMap.block)[0];
-    const pageBlock = recordMap.block[pageBlockId].value;
-    const authorId = pageBlock.created_by_id;
-    const users = await this.getUsers([authorId]);
-    const author = users.results[0];
 
+    const pageBlockId = Object.keys(recordMap.block)[0];
+
+    const pageBlock = recordMap.block[pageBlockId].value;
+
+    const authorId = pageBlock.created_by_id;
+
+    // FIX: 작성자 정보가 없는 경우 예외 처리
+
+    const author = authorId ? (await this.getUsers([authorId])).results[0] : null;
     recordMap.notion_user = {
       [authorId]: author,
     };

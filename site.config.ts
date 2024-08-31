@@ -52,15 +52,9 @@ export default siteConfig({
   navigationLinks: [
     {
       title: '카테고리',
-      pageId: '04431c24227545c4bfda0261f136699f',
-    },
-    {
-      title: '카테고리',
-      pageId: '04431c24227545c4bfda0261f136699f',
-      menuPage: true,
+      pageId: 'a8785e82ad0e43728b087f54fafcbe6b',
     },
   ],
-
   // -------- custom configs (2skydev) -------------
 
   // date-fns format string
