@@ -12,15 +12,23 @@ const ASCIIArt = `
 `;
 
 export function bootstrap() {
-  console.log(
-    '%c%s',
-    'color:#E7B857;font-size:18px;',
-    '🚧 ----------------------------------------------------------------------- 🚧',
+  setTimeout(
+    console.log.bind(
+      console,
+      '%c%s',
+      'color:#E7B857;font-size:18px;',
+      '🚧 ----------------------------------------------------------------------- 🚧',
+    ),
+    0,
   );
-  console.log('%c%s', 'color:#E7B857;', ASCIIArt);
-  console.log(
-    '%c%s',
-    'color:#E7B857;font-size:18px;',
-    '🚧 ----------------------------------------------------------------------- 🚧',
+  setTimeout(console.log.bind(console, '%c%s', 'color:#E7B857;', ASCIIArt), 0);
+  setTimeout(
+    console.log.bind(
+      console,
+      '%c%s',
+      'color:#E7B857;font-size:18px;',
+      '🚧 ----------------------------------------------------------------------- 🚧',
+    ),
+    0,
   );
 }

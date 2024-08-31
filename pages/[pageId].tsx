@@ -8,7 +8,7 @@ import { NotionPage } from 'components';
 
 export const getStaticProps: GetStaticProps<PageProps, Params> = async context => {
   const rawPageId = context.params.pageId as string;
-
+  console.log('Page ID:', context.params.pageId);
   try {
     const props = await resolveNotionPage(domain, rawPageId);
 

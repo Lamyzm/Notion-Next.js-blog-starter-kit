@@ -8,7 +8,7 @@ export default siteConfig({
   rootNotionSpaceId: null,
 
   name: '2skydev blog',
-  domain: 'localhost:3000',
+  domain: 'lnotion-next-js-blog-starter-kit-git-main-levijou-boos-projects.vercel.app',
   author: '2skydev',
 
   // open graph metadata (optional)
