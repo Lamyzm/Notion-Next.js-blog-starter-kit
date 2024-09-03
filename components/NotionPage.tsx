@@ -8,7 +8,7 @@ import BodyClassName from 'react-body-classname';
 import { NotionRenderer } from 'react-notion-x';
 import TweetEmbed from 'react-tweet-embed';
 import { useSearchParam } from 'react-use';
-
+import Giscus from '@giscus/react';
 import cs from 'classnames';
 import * as config from 'lib/config';
 import { mapImageUrl } from 'lib/map-image-url';
@@ -31,6 +31,7 @@ import { Page404 } from './Page404';
 import { PageAside } from './PageAside';
 import { PageHead } from './PageHead';
 import styles from './styles.module.css';
+import Script from 'next/script';
 
 // -----------------------------------------------------------------------------
 // dynamic imports for optional components
@@ -238,7 +239,6 @@ export const NotionPage: React.FC<types.PageProps> = ({
         url={canonicalPageUrl}
       />
       {isLiteMode && <BodyClassName className="notion-lite" />}
-
       <NotionRenderer
         className={cs(isIndexPage ? 'indexPage' : 'childPage', { hasCollectionView })}
         bodyClassName={cs(styles.notion, isIndexPage && 'index-page')}
@@ -262,7 +262,23 @@ export const NotionPage: React.FC<types.PageProps> = ({
         pageFooter={
           config.enableComment ? (
             !isBlogPost ? null : (
-              <Comments pageId={pageId} recordMap={recordMap} />
+              // <Comments pageId={pageId} recordMap={recordMap} />
+              <>
+                <Giscus
+                  id="comments"
+                  repo="Lamyzm/giscus_notion_blog"
+                  repoId="R_kgDOMrTITA"
+                  category="Comments"
+                  categoryId="DIC_kwDOMrTITM4CiIMf"
+                  mapping="pathname"
+                  reactionsEnabled="1"
+                  emitMetadata="0"
+                  inputPosition="bottom"
+                  theme="preferred_color_scheme"
+                  lang="ko"
+                  loading="lazy"
+                />
+              </>
             )
           ) : null
         }

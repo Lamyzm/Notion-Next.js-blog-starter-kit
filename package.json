@@ -44,6 +44,7 @@
     "packages/*"
   ],
   "dependencies": {
+    "@giscus/react": "^3.0.0",
     "@keyvhq/core": "^1.6.9",
     "@keyvhq/redis": "^1.6.10",
     "@notionhq/client": "^2.2.0",
