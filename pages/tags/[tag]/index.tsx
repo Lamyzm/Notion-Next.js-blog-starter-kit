@@ -13,6 +13,9 @@ import Link from 'next/link';
 import { PageBlock } from 'notion-types';
 import { CollectionCard } from '~/packages/react-notion-x/third-party/collection-card';
 import Image from 'next/image';
+import * as siteConfig from 'lib/config';
+import Router, { useRouter } from 'next/router';
+import { Page404 } from 'components';
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const paths = [{ params: { tag: 'example-tag-1' } }, { params: { tag: 'example-tag-2' } }];
@@ -24,8 +27,9 @@ export const getStaticPaths: GetStaticPaths = async () => {
 };
 
 export const getStaticProps = async a => {
+  console.log('static prorp', a);
   try {
-    const filteredPosts = await getTagePosts();
+    const filteredPosts = await getTagPosts(a.params.tag);
     // const props = await resolveNotionPage(domain);
 
     return {
@@ -42,12 +46,12 @@ export const getStaticProps = async a => {
     throw err;
   }
 };
-export const getTagePosts = async () => {
+export const getTagPosts = async contain => {
   const data = {
     filter: {
       property: '태그',
       multi_select: {
-        contains: 'nextjs',
+        contains: contain,
       },
     },
   };
@@ -69,10 +73,9 @@ export const getTagePosts = async () => {
 };
 
 export default function NotionDomainPage({ filteredPosts }) {
-  // console.log(props);
-  const { recordMap, mapPageUrl, components } = useNotionContext();
-
-  console.log('엄엄', mapPageUrl('614b4d50172c4f4bb548f3f8ae914984'));
+  if (filteredPosts && filteredPosts.results?.length === 0) {
+    return <Page404 />;
+  }
   return (
     <>
       <header className="notion-header">
@@ -96,19 +99,40 @@ export default function NotionDomainPage({ filteredPosts }) {
           <div className={'notion-tag-posts'}>
             {filteredPosts.results.map((val, idx) => {
               console.log(val);
-              // const { id as postId, cover,  properties}  = val;
+              const { id: postId, cover, properties } = val;
 
+              const title = properties?.['이름']?.title?.[0]?.plain_text || siteConfig.name;
+              const description = properties?.['설명']?.rich_text?.[0]?.plain_text || '';
+              const publishedAt = properties?.['작성일']?.created_time;
+              const publishedAtString = publishedAt
+                ? new Date(publishedAt).toLocaleDateString('ko-KR', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                  })
+                : siteConfig.domain;
               return (
-                <div key={idx} className="notion-tag-post">
+                <Link key={idx} href={'/' + postId} className="notion-tag-post">
                   <div className="notion-tag-imgwrapper">
-                    <Image
-                      fill
-                      style={{ objectFit: 'cover' }}
-                      src={'https://www.notion.so/images/page-cover/solid_blue.png'}
-                      alt="notion-post-cover-image"
-                    />
+                    {cover.external.url ? (
+                      <Image
+                        fill
+                        style={{ objectFit: 'cover' }}
+                        src={cover.external.url}
+                        alt="notion-post-cover-image"
+                      />
+                    ) : null}
                   </div>
-                </div>
+                  <div className="notion-tag-content">
+                    <div style={{ padding: '0 20px' }}>
+                      <h3>{title}</h3>
+                      <p style={{ fontSize: '14px' }}>{description}</p>
+                    </div>
+                    <time style={{ padding: '10px 30px' }} className="post-create-time">
+                      {publishedAtString}
+                    </time>
+                  </div>
+                </Link>
               );
             })}
           </div>

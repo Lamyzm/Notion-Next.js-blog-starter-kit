@@ -722,15 +722,46 @@ body {
   background-color: var(--notion-card-background-color);
   box-shadow: 10px 20px 20px 0 rgba(92, 95, 112, 0.08);
   transition: 250ms transform, 250ms background-color;
-  height: 20rem;
+  height: 24rem;
   width: 100%;
   border-radius: 10%;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
 .notion-tag-imgwrapper {
   width: 100%;
-  height: 160px;
+  height: 90%;
   overflow: hidden;
   position: relative;
+}
+
+$horizontal-padding: 20px;
+
+.notion-tag-content {
+  padding: 10px 0px;
+  font-weight: 500;
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  box-sizing: border-box;
+  h3 {
+    margin-bottom: 10px;
+  }
+  .post-create-time {
+    border-top: 1px solid var(--line-color);
+    margin-top: 10px;
+    font-size: small;
+  }
+
+  > *:not(div) {
+    padding-left: $horizontal-padding;
+    padding-right: $horizontal-padding;
+  }
+}
+
+.main-tag-wrapper {
+  min-height: 40vh;
 }

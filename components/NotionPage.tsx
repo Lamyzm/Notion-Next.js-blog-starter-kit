@@ -32,6 +32,7 @@ import { PageAside } from './PageAside';
 import { PageHead } from './PageHead';
 import styles from './styles.module.css';
 import Script from 'next/script';
+import TagHeader from './TagHeader';
 
 // -----------------------------------------------------------------------------
 // dynamic imports for optional components
@@ -138,7 +139,9 @@ export const NotionPage: React.FC<types.PageProps> = ({
   error,
   pageId,
   draftView,
+  tagPosts,
 }) => {
+  console.log('tagPosts', tagPosts);
   const router = useRouter();
   const lite = useSearchParam('lite');
 
@@ -239,6 +242,19 @@ export const NotionPage: React.FC<types.PageProps> = ({
         url={canonicalPageUrl}
       />
       {isLiteMode && <BodyClassName className="notion-lite" />}
+      <div className="main-tag-wrapper">
+        <TagHeader></TagHeader>
+        {/* <div style={{ display: 'flex', fontSize: '18px', opacity: 0.6 }}>
+                {tags.map((tag: string, i) => (
+                  <div
+                    key={tag}
+                    style={{ display: 'flex', marginRight: tags.length === i + 1 ? '' : '10px' }}
+                  >
+                    #{tag}
+                  </div>
+                ))}
+              </div> */}
+      </div>
       <NotionRenderer
         className={cs(isIndexPage ? 'indexPage' : 'childPage', { hasCollectionView })}
         bodyClassName={cs(styles.notion, isIndexPage && 'index-page')}
