@@ -24,7 +24,7 @@ export default siteConfig({
   // default notion icon and cover images for site-wide consistency (optional)
   // page-specific values will override these site-wide defaults
   defaultPageIcon:
-    'https://www.notion.so/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F0d2daa37-61d0-45b6-b333-9a2bd0bdc3ee%2Fprofile_%25E1%2584%2580%25E1%2585%25A9%25E1%2584%2592%25E1%2585%25AA%25E1%2584%258C%25E1%2585%25B5%25E1%2586%25AF_circle.png?table=block&id=d1e89e9e-42eb-4ebf-9486-ae0374039efc&spaceId=2eb5336b-2edb-42d0-bc6c-95d72d4d1b74&width=250&userId=bef10e95-202b-4b6b-9626-7af866b6f9ba&cache=v2',
+    'https://file.notion.so/f/f/eaa8cae3-750f-477e-9f30-3d5f233c3c32/370b7b59-5a99-4f84-8cd0-11810dc75b31/Untitled.png?table=block&id=ff6c2a6b-9751-4755-8d4d-cfab4457fa67&spaceId=eaa8cae3-750f-477e-9f30-3d5f233c3c32&expirationTimestamp=1726891200000&signature=I-IBsTW91bv9s--Cpu8NImqCbKanICcQRWbCdtOvlxE&downloadName=Untitled.png',
   defaultPageCover: null,
   defaultPageCoverPosition: 0.5,
 

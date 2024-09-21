@@ -15,12 +15,27 @@ export const LazyImage: React.FC<{
   height?: number;
   zoomable?: boolean;
   priority?: boolean;
-}> = ({ src, alt, className, style, zoomable = false, priority = false, height, ...rest }) => {
+  fallbackSrc?: string; // 추가: 대체 이미지 소스
+}> = ({
+  src,
+  alt,
+  className,
+  style,
+  zoomable = false,
+  priority = false,
+  height,
+  fallbackSrc, // 추가: 대체 이미지 소스
+  ...rest
+}) => {
   const { recordMap, zoom, previewImages, forceCustomImages, components } = useNotionContext();
+
+  // 이미지 소스를 관리하는 상태 추가
+  const [currentSrc, setCurrentSrc] = React.useState(src);
 
   const zoomRef = React.useRef(zoom ? zoom.clone() : null);
   const previewImage = previewImages
-    ? recordMap?.preview_images?.[src] ?? recordMap?.preview_images?.[normalizeUrl(src)]
+    ? recordMap?.preview_images?.[currentSrc] ??
+      recordMap?.preview_images?.[normalizeUrl(currentSrc)]
     : null;
 
   const onLoad = React.useCallback(
@@ -33,6 +48,12 @@ export const LazyImage: React.FC<{
     },
     [zoomRef, zoomable],
   );
+
+  const onError = React.useCallback(() => {
+    if (fallbackSrc && currentSrc !== fallbackSrc) {
+      setCurrentSrc(fallbackSrc); // 이미지 로드 실패 시 대체 이미지로 변경
+    }
+  }, [fallbackSrc, currentSrc]);
 
   const attachZoom = React.useCallback(
     (image: any) => {
@@ -52,11 +73,9 @@ export const LazyImage: React.FC<{
     const aspectRatio = previewImage.originalHeight / previewImage.originalWidth;
 
     if (components.Image) {
-      // TODO: could try using next/image onLoadComplete to replace LazyImageFull
-      // while retaining our blur implementation
       return (
         <components.Image
-          src={src}
+          src={currentSrc}
           alt={alt}
           style={style}
           className={className}
@@ -66,13 +85,14 @@ export const LazyImage: React.FC<{
           placeholder="blur"
           priority={priority}
           onLoad={onLoad}
+          onError={onError} // 추가: onError 핸들러 전달
         />
       );
     }
 
     return (
       // @ts-ignore
-      <LazyImageFull src={src} {...rest} experimentalDecode={true}>
+      <LazyImageFull src={currentSrc} {...rest} experimentalDecode={true}>
         {({ imageState, ref }) => {
           const isLoaded = imageState === ImageState.LoadSuccess;
           const wrapperStyle: React.CSSProperties = {
@@ -99,11 +119,12 @@ export const LazyImage: React.FC<{
                 ref={ref}
                 style={style}
                 decoding="async"
+                onError={onError} // 추가: onError 핸들러 전달
               />
 
               <img
                 className="lazy-image-real"
-                src={src}
+                src={currentSrc}
                 alt={alt}
                 ref={attachZoomRef}
                 style={{
@@ -114,6 +135,7 @@ export const LazyImage: React.FC<{
                 height={previewImage.originalHeight}
                 decoding="async"
                 loading="lazy"
+                onError={onError} // 추가: onError 핸들러 전달
               />
             </div>
           );
@@ -121,24 +143,10 @@ export const LazyImage: React.FC<{
       </LazyImageFull>
     );
   } else {
-    // TODO: GracefulImage doesn't seem to support refs, but we'd like to prevent
-    // invalid images from loading as error states
-
-    /*
-      NOTE: Using next/image without a pre-defined width/height is a huge pain in
-      the ass. If we have a preview image, then this works fine since we know the
-      dimensions ahead of time, but if we don't, then next/image won't display
-      anything.
-      
-      Since next/image is the most common use case for using custom images, and this 
-      is likely to trip people up, we're disabling non-preview custom images for now.
-
-      If you have a use case that is affected by this, please open an issue on github.
-    */
     if (components.Image && forceCustomImages) {
       return (
         <components.Image
-          src={src}
+          src={currentSrc}
           alt={alt}
           className={className}
           style={style}
@@ -146,20 +154,21 @@ export const LazyImage: React.FC<{
           height={height || null}
           priority={priority}
           onLoad={onLoad}
+          onError={onError} // 추가: onError 핸들러 전달
         />
       );
     }
 
-    // Default image element
     return (
       <img
         className={className}
         style={style}
-        src={src}
+        src={currentSrc}
         alt={alt}
         ref={attachZoomRef}
         loading="lazy"
         decoding="async"
+        onError={onError} // 추가: onError 핸들러 전달
         {...rest}
       />
     );
