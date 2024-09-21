@@ -81,9 +81,12 @@ export default function NotionDomainPage({ filteredPosts }) {
       <header className="notion-header">
         <div className="notion-nav-header">
           {
-            <div role="button" className={cs('breadcrumb', 'button', 'notion-search-button')}>
-              <Link href={'/'}>Home </Link>
-              {<span className="title">{'nextjs'}</span>}
+            <div>
+              <div role="button" className={cs('breadcrumb', 'button', 'notion-search-button')}>
+                <Link href={'/'}>Home </Link>
+              </div>
+              <span>&gt;</span>
+              <span className="title">{'nextjs'}</span>
             </div>
           }
         </div>
@@ -114,7 +117,7 @@ export default function NotionDomainPage({ filteredPosts }) {
               return (
                 <Link key={idx} href={'/' + postId} className="notion-tag-post">
                   <div className="notion-tag-imgwrapper">
-                    {cover.external.url ? (
+                    {cover?.external.url ? (
                       <Image
                         fill
                         style={{ objectFit: 'cover' }}

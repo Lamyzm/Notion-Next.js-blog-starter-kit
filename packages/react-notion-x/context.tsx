@@ -33,6 +33,7 @@ export interface NotionContext {
   defaultPageCoverPosition?: number;
 
   zoom: any;
+  tagPosts: any;
 }
 
 export interface PartialNotionContext {
@@ -63,6 +64,7 @@ export interface PartialNotionContext {
   defaultPageCoverPosition?: number;
 
   zoom?: any;
+  tagPosts?: any;
 }
 
 const DefaultLink: React.FC = props => <a target="_blank" rel="noopener noreferrer" {...props} />;

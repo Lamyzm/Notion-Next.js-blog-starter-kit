@@ -809,6 +809,11 @@ svg.notion-page-icon {
   max-height: 100%;
 }
 
+.notion-asset-wrapper div {
+  width: 100% !important;
+  height: 400px !important;
+}
+
 .notion-asset-wrapper iframe {
   border: none;
   background: rgb(247, 246, 245);
@@ -2306,6 +2311,9 @@ svg.notion-page-icon {
 .notion-header .breadcrumb.active .title {
   text-overflow: ellipsis;
   overflow: hidden;
+}
+.notion-nav-header .title {
+  color: var(--fg-color);
 }
 
 .notion-header .breadcrumb .notion-page-icon-inline {

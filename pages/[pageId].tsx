@@ -24,16 +24,9 @@ export const getStaticProps: GetStaticProps<PageProps, Params> = async context =
   const rawPageId = context.params.pageId as string;
   console.log('Page ID:', context.params.pageId);
   try {
-    const [props, tagPosts] = await Promise.all([
-      resolveNotionPage(domain, rawPageId),
-      getTagPosts(),
-    ]);
-    console.log(tagPosts, '엄준식!');
+    const props = await resolveNotionPage(domain, rawPageId);
     return {
-      props: {
-        ...props,
-        tagPosts,
-      },
+      props,
       revalidate: 10,
     };
   } catch (err) {
@@ -69,5 +62,6 @@ export async function getStaticPaths() {
 }
 
 export default function NotionDomainDynamicPage(props) {
+  console.log('NotionDomainDynamicPage', props);
   return <NotionPage {...props} />;
 }

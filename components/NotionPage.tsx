@@ -242,20 +242,9 @@ export const NotionPage: React.FC<types.PageProps> = ({
         url={canonicalPageUrl}
       />
       {isLiteMode && <BodyClassName className="notion-lite" />}
-      <div className="main-tag-wrapper">
-        <TagHeader></TagHeader>
-        {/* <div style={{ display: 'flex', fontSize: '18px', opacity: 0.6 }}>
-                {tags.map((tag: string, i) => (
-                  <div
-                    key={tag}
-                    style={{ display: 'flex', marginRight: tags.length === i + 1 ? '' : '10px' }}
-                  >
-                    #{tag}
-                  </div>
-                ))}
-              </div> */}
-      </div>
+
       <NotionRenderer
+        tagPosts={tagPosts}
         className={cs(isIndexPage ? 'indexPage' : 'childPage', { hasCollectionView })}
         bodyClassName={cs(styles.notion, isIndexPage && 'index-page')}
         darkMode={isDarkMode}

@@ -23,6 +23,7 @@ import { Text } from './components/text';
 import { SyncPointerBlock } from './components/sync-pointer-block';
 import { AssetWrapper } from './components/asset-wrapper';
 import { EOI } from './components/eoi';
+import TagComponent from './components/page-tags';
 
 interface BlockProps {
   block: types.Block;
@@ -66,6 +67,7 @@ export const Block: React.FC<BlockProps> = props => {
     defaultPageIcon,
     defaultPageCover,
     defaultPageCoverPosition,
+    tagPosts,
   } = ctx;
 
   const [activeSection, setActiveSection] = React.useState(null);
@@ -98,7 +100,6 @@ export const Block: React.FC<BlockProps> = props => {
   }
 
   const blockId = hideBlockId ? 'notion-block' : `notion-block-${uuidToId(block.id)}`;
-
   switch (block.type) {
     case 'collection_view_page':
     // fallthrough
@@ -140,6 +141,9 @@ export const Block: React.FC<BlockProps> = props => {
           const hasAside = (hasToc || pageAside) && !page_full_width;
           const hasPageCover = pageCover || page_cover;
 
+          const tags = tagPosts?.properties['태그']?.multi_select.options;
+
+          console.log('멀티섹션태그', tags);
           return (
             <div className={cs('notion', 'notion-app', blockId, className)}>
               <div className="notion-viewport" />
@@ -185,6 +189,19 @@ export const Block: React.FC<BlockProps> = props => {
                     <h1 className="notion-title">
                       {pageTitle ?? <Text value={properties?.title} block={block} />}
                     </h1>
+
+                    {!isBlogPost ? (
+                      <>
+                        <h1>안녕?</h1>
+                        <TagComponent tags={tags}></TagComponent>
+                      </>
+                    ) : (
+                      ''
+                    )}
+                    <img
+                      src="https://file.notion.so/f/f/eaa8cae3-750f-477e-9f30-3d5f233c3c32/370b7b59-5a99-4f84-8cd0-11810dc75b31/Untitled.png?table=block&id=ff6c2a6b-9751-4755-8d4d-cfab4457fa67&spaceId=eaa8cae3-750f-477e-9f30-3d5f233c3c32&expirationTimestamp=1726891200000&signature=I-IBsTW91bv9s--Cpu8NImqCbKanICcQRWbCdtOvlxE&downloadName=Untitled.png"
+                      alt="노션"
+                    />
 
                     {(block.type === 'collection_view_page' ||
                       (block.type === 'page' && block.parent_table === 'collection')) && (
