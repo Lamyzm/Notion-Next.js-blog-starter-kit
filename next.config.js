@@ -8,11 +8,22 @@ module.exports = withBundleAnalyzer({
   experimental: {
     scrollRestoration: true,
   },
+
   images: {
+    domains: ['file.notion.so'],
     remotePatterns: [
       {
         protocol: 'https',
         hostname: 'www.notion.so',
+      },
+      {
+        protocol: 'https',
+        hostname: 'www.notion.so',
+      },
+      {
+        protocol: 'https',
+        hostname: 'www.notion.so',
+        pathname: '/image/**',
       },
       {
         protocol: 'https',
@@ -30,6 +41,10 @@ module.exports = withBundleAnalyzer({
         protocol: 'https',
         hostname: 's3.*.amazonaws.com',
       },
+      {
+        protocol: 'https',
+        hostname: 'prod-files-secure.s3.us-west-2.amazonaws.com',
+      }
     ],
     formats: ['image/avif', 'image/webp'],
     dangerouslyAllowSVG: true,
