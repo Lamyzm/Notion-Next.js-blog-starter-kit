@@ -141,6 +141,7 @@ export const NotionPage: React.FC<Omit<types.PageProps, 'tagPosts'> & { tagPosts
   draftView,
   tagPosts,
 }) => {
+  console.log('tagPosts', tagPosts);
   const router = useRouter();
   const lite = useSearchParam('lite');
 
@@ -277,8 +278,8 @@ export const NotionPage: React.FC<Omit<types.PageProps, 'tagPosts'> & { tagPosts
                   mapping="pathname"
                   reactionsEnabled="1"
                   emitMetadata="0"
-                  inputPosition="top"
-                  theme="dark"
+                  inputPosition="bottom"
+                  theme="preferred_color_scheme"
                   lang="ko"
                   loading="lazy"
                 />
