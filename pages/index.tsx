@@ -3,11 +3,31 @@ import * as React from 'react';
 import { NotionPage } from 'components';
 import { domain } from 'lib/config';
 import { resolveNotionPage } from 'lib/resolve-notion-page';
+import ky from 'ky';
+
+export const getTagPosts = async () => {
+  const response = await ky
+    .get('https://api.notion.com/v1/databases/4b9f229688d545aba687f7855e987ce3', {
+      headers: {
+        Authorization: `Bearer ${process.env.NOTION_API_KEY}`,
+        'Content-Type': 'application/json',
+        'Notion-Version': '2022-06-28',
+      },
+    })
+    .json();
+  return response;
+};
 
 export const getStaticProps = async a => {
   try {
-    const props = await resolveNotionPage(domain);
-    return { props, revalidate: 10 };
+    const [props, tagPosts] = await Promise.all([resolveNotionPage(domain), getTagPosts()]);
+    return {
+      props: {
+        ...props,
+        tagPosts,
+      },
+      revalidate: 10,
+    };
   } catch (err) {
     console.error('page error', domain, err);
 

@@ -133,7 +133,7 @@ const propertyTextValue = ({ schema, pageHeader }, defaultFn: () => React.ReactN
   return defaultFn();
 };
 
-export const NotionPage: React.FC<types.PageProps> = ({
+export const NotionPage: React.FC<Omit<types.PageProps, 'tagPosts'> & { tagPosts: any }> = ({
   site,
   recordMap,
   error,
@@ -141,7 +141,6 @@ export const NotionPage: React.FC<types.PageProps> = ({
   draftView,
   tagPosts,
 }) => {
-  console.log('tagPosts', tagPosts);
   const router = useRouter();
   const lite = useSearchParam('lite');
 
@@ -242,20 +241,9 @@ export const NotionPage: React.FC<types.PageProps> = ({
         url={canonicalPageUrl}
       />
       {isLiteMode && <BodyClassName className="notion-lite" />}
-      <div className="main-tag-wrapper">
-        <TagHeader></TagHeader>
-        {/* <div style={{ display: 'flex', fontSize: '18px', opacity: 0.6 }}>
-                {tags.map((tag: string, i) => (
-                  <div
-                    key={tag}
-                    style={{ display: 'flex', marginRight: tags.length === i + 1 ? '' : '10px' }}
-                  >
-                    #{tag}
-                  </div>
-                ))}
-              </div> */}
-      </div>
+
       <NotionRenderer
+        tagPosts={tagPosts}
         className={cs(isIndexPage ? 'indexPage' : 'childPage', { hasCollectionView })}
         bodyClassName={cs(styles.notion, isIndexPage && 'index-page')}
         darkMode={isDarkMode}
@@ -289,8 +277,8 @@ export const NotionPage: React.FC<types.PageProps> = ({
                   mapping="pathname"
                   reactionsEnabled="1"
                   emitMetadata="0"
-                  inputPosition="bottom"
-                  theme="preferred_color_scheme"
+                  inputPosition="top"
+                  theme="dark"
                   lang="ko"
                   loading="lazy"
                 />

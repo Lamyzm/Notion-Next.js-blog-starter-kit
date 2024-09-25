@@ -48,6 +48,7 @@ export const NotionRenderer: React.FC<{
   blockId?: string;
   hideBlockId?: boolean;
   disableHeader?: boolean;
+  tagPosts?: string;
 }> = ({
   components,
   recordMap,
@@ -67,6 +68,7 @@ export const NotionRenderer: React.FC<{
   defaultPageIcon,
   defaultPageCover,
   defaultPageCoverPosition,
+  tagPosts,
   ...rest
 }) => {
   const zoom = React.useMemo(
@@ -79,7 +81,7 @@ export const NotionRenderer: React.FC<{
       }),
     [],
   );
-
+  console.log(tagPosts, '랜더러입니다');
   return (
     <NotionContextProvider
       components={components}
@@ -101,6 +103,7 @@ export const NotionRenderer: React.FC<{
       defaultPageCover={defaultPageCover}
       defaultPageCoverPosition={defaultPageCoverPosition}
       zoom={zoom}
+      tagPosts={tagPosts}
     >
       <NotionBlockRenderer {...rest} />
     </NotionContextProvider>
