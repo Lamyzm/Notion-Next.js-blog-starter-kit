@@ -24,6 +24,7 @@ import { SyncPointerBlock } from './components/sync-pointer-block';
 import { AssetWrapper } from './components/asset-wrapper';
 import { EOI } from './components/eoi';
 import TagComponent from './components/page-tags';
+import TagComponent from './components/page-tags';
 
 interface BlockProps {
   block: types.Block;
@@ -193,7 +194,7 @@ export const Block: React.FC<BlockProps> = props => {
                     {!isBlogPost ? (
                       <>
                         <h1>안녕?</h1>
-                        {/* <TagComponent tags={tags}></TagComponent> */}
+                        <TagComponent tags={tags}></TagComponent>
                       </>
                     ) : (
                       ''
