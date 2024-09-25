@@ -81,7 +81,6 @@ export const NotionRenderer: React.FC<{
       }),
     [],
   );
-  console.log(tagPosts, '랜더러입니다');
   return (
     <NotionContextProvider
       components={components}

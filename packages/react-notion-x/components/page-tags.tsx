@@ -2,7 +2,6 @@ import React from 'react';
 import Link from 'next/link';
 
 const TagComponent = ({ tags }) => {
-  // 개선된 색상 스키마
   const colorScheme = {
     purple: '#8A2BE2', // 선명한 보라색
     orange: '#FF7F50', // 산호색
@@ -34,13 +33,13 @@ const TagComponent = ({ tags }) => {
         gap: '8px',
       }}
     >
-      {tags.map(tag => {
+      {tags?.map(tag => {
         const bgColor = colorScheme[tag.color] || colorScheme.default;
         const textColor = getTextColor(bgColor);
         return (
           <Link
             key={tag.id}
-            href={`/tag/${tag.name}`}
+            href={`/tags/${tag.name}`}
             style={{
               backgroundColor: bgColor,
               color: textColor,

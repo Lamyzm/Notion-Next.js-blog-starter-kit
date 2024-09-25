@@ -33,7 +33,7 @@ export interface NotionContext {
   defaultPageCoverPosition?: number;
 
   zoom: any;
-  tagPosts: any;
+  tagPosts?: any;
 }
 
 export interface PartialNotionContext {

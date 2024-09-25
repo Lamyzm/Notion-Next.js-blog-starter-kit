@@ -133,7 +133,7 @@ const propertyTextValue = ({ schema, pageHeader }, defaultFn: () => React.ReactN
   return defaultFn();
 };
 
-export const NotionPage: React.FC<types.PageProps> = ({
+export const NotionPage: React.FC<Omit<types.PageProps, 'tagPosts'> & { tagPosts: any }> = ({
   site,
   recordMap,
   error,

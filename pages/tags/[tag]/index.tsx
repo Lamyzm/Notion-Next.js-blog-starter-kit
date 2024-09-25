@@ -1,8 +1,6 @@
 import * as React from 'react';
 
-import { NotionPage } from 'components';
 import { domain } from 'lib/config';
-import { resolveNotionPage } from 'lib/resolve-notion-page';
 import { GetStaticPaths, GetStaticProps } from 'next';
 import ky from 'ky';
 import { cs, NotionRenderer } from 'react-notion-x';
@@ -10,8 +8,6 @@ import { Header, Breadcrumbs, Search } from '~/packages/react-notion-x/component
 import { SearchIcon } from '~/packages/react-notion-x/icons/search-icon';
 import { useNotionContext } from '~/packages/react-notion-x/context';
 import Link from 'next/link';
-import { PageBlock } from 'notion-types';
-import { CollectionCard } from '~/packages/react-notion-x/third-party/collection-card';
 import Image from 'next/image';
 import * as siteConfig from 'lib/config';
 import Router, { useRouter } from 'next/router';
@@ -73,6 +69,7 @@ export const getTagPosts = async contain => {
 };
 
 export default function NotionDomainPage({ filteredPosts }) {
+  const router = useRouter();
   if (filteredPosts && filteredPosts.results?.length === 0) {
     return <Page404 />;
   }
@@ -86,7 +83,7 @@ export default function NotionDomainPage({ filteredPosts }) {
                 <Link href={'/'}>Home </Link>
               </div>
               <span>&gt;</span>
-              <span className="title">{'nextjs'}</span>
+              <span className="title">{router.query.tag}</span>
             </div>
           }
         </div>
@@ -96,7 +93,7 @@ export default function NotionDomainPage({ filteredPosts }) {
           'notion notion-page notion-page-has-cover notion-page-has-icon notion-page-has-image-icon notion-full-page index-page'
         }
       >
-        <h1>nextjs</h1>
+        <h1>{router.query.tag}</h1>
 
         <div style={{ width: '100%' }} className="postListWrap ">
           <div className={'notion-tag-posts'}>

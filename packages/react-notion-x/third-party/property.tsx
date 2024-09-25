@@ -11,6 +11,8 @@ import { GracefulImage } from '../components/graceful-image';
 import { evalFormula } from './eval-formula';
 import { dateformat } from '~/lib/config';
 import { utcToZonedTime, format } from 'date-fns-tz';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 export interface IPropertyProps {
   propertyId?: string;
@@ -42,7 +44,7 @@ export const Property: React.FC<IPropertyProps> = props => {
 export const PropertyImpl: React.FC<IPropertyProps> = props => {
   const { components, mapImageUrl, mapPageUrl } = useNotionContext();
   const { schema, data, block, collection, inline = false, linkToTitlePage = true } = props;
-
+  const router = useRouter();
   const renderTextValue = React.useMemo(
     () =>
       function TextProperty() {
@@ -339,6 +341,15 @@ export const PropertyImpl: React.FC<IPropertyProps> = props => {
                   `notion-property-${schema.type}-item`,
                   color && `notion-item-${color}`,
                 )}
+                style={{ cursor: 'pointer' }}
+                role="link"
+                aria-label="태그 페이지로 이동"
+                onClick={event => {
+                  event.stopPropagation();
+                  event.preventDefault();
+                  router.push(`/tags/${value}`);
+                  router.prefetch(`/tags/${value}`);
+                }}
               >
                 {value}
               </div>

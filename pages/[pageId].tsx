@@ -5,24 +5,10 @@ import { getSiteMap } from 'lib/get-site-map';
 import { resolveNotionPage } from 'lib/resolve-notion-page';
 import { PageProps, Params } from 'lib/types';
 import { NotionPage } from 'components';
-import ky from 'ky';
-
-export const getTagPosts = async () => {
-  const response = await ky
-    .post('https://api.notion.com/v1/databases/4b9f229688d545aba687f7855e987ce3/query', {
-      headers: {
-        Authorization: `Bearer ${process.env.NOTION_API_KEY}`,
-        'Content-Type': 'application/json',
-        'Notion-Version': '2022-06-28',
-      },
-    })
-    .json();
-  return response;
-};
 
 export const getStaticProps: GetStaticProps<PageProps, Params> = async context => {
   const rawPageId = context.params.pageId as string;
-  console.log('Page ID:', context.params.pageId);
+  // console.log('Page ID:', context.params.pageId);
   try {
     const props = await resolveNotionPage(domain, rawPageId);
     return {
@@ -62,6 +48,6 @@ export async function getStaticPaths() {
 }
 
 export default function NotionDomainDynamicPage(props) {
-  console.log('NotionDomainDynamicPage', props);
+  // console.log('NotionDomainDynamicPage', props);
   return <NotionPage {...props} />;
 }
