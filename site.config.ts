@@ -7,12 +7,12 @@ export default siteConfig({
   // (this should be a Notion ID; see the docs for how to extract this)
   rootNotionSpaceId: 'eaa8cae3-750f-477e-9f30-3d5f233c3c32',
 
-  name: '2skydev blog',
+  name: 'Lamyzm blog',
   domain: 'lnotion-next-js-blog-starter-kit-git-main-levijou-boos-projects.vercel.app',
   author: '2skydev',
 
   // open graph metadata (optional)
-  description: '2skydev blog - developer blog',
+  description: 'Lamyzm blog - developer blog',
 
   // social usernames (optional)
   // twitter: 'transitive_bs',
@@ -24,7 +24,7 @@ export default siteConfig({
   // default notion icon and cover images for site-wide consistency (optional)
   // page-specific values will override these site-wide defaults
   defaultPageIcon:
-    'https://file.notion.so/f/f/eaa8cae3-750f-477e-9f30-3d5f233c3c32/a2d133c2-4440-461a-a120-f68abf2c6c41/Untitled.png?table=block&id=bea9e93b-5256-4d0d-bc2b-062b35352c48&spaceId=eaa8cae3-750f-477e-9f30-3d5f233c3c32&expirationTimestamp=1727337600000&signature=mpz3o7Byz_H1_JGlE35kHt8r34Tw4LC7RM0Je2Wizds&downloadName=Untitled.png',
+    'https://private-user-images.githubusercontent.com/58257616/370933986-0acc3700-f0d2-48c9-8c35-450bddef7067.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3MjczMTE2MzQsIm5iZiI6MTcyNzMxMTMzNCwicGF0aCI6Ii81ODI1NzYxNi8zNzA5MzM5ODYtMGFjYzM3MDAtZjBkMi00OGM5LThjMzUtNDUwYmRkZWY3MDY3LnBuZz9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFWQ09EWUxTQTUzUFFLNFpBJTJGMjAyNDA5MjYlMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjQwOTI2VDAwNDIxNFomWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPThhMTUxNTYwMTFkYjE2MjMxYThjNmY3NzI4MTYzNWEwMWUzNzEwZTY4NTQ4MjdhZDA1NTM0ODdhMTQzNDBhYjkmWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0In0.ut7VvAxJMFMpza2wMkNJs53z2PJtY03jeZevYUzQSgw',
   defaultPageCover: null,
   defaultPageCoverPosition: 0.5,
 

@@ -278,8 +278,8 @@ export const NotionPage: React.FC<Omit<types.PageProps, 'tagPosts'> & { tagPosts
                   mapping="pathname"
                   reactionsEnabled="1"
                   emitMetadata="0"
-                  inputPosition="bottom"
-                  theme="preferred_color_scheme"
+                  inputPosition="top"
+                  theme="dark"
                   lang="ko"
                   loading="lazy"
                 />
