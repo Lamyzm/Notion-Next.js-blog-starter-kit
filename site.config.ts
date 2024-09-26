@@ -16,7 +16,7 @@ export default siteConfig({
 
   // social usernames (optional)
   // twitter: 'transitive_bs',
-  github: 'Lamyzm',
+  github: 'https://github.com/Lamyzm?page=1&tab=repositories',
   // linkedin: 'fisch2',
   // newsletter: '#', // optional newsletter URL
   // youtube: '#', // optional youtube channel name or `channel/UCGbXXXXXXXXXXXXXXXXXXXXXX`
@@ -48,13 +48,13 @@ export default siteConfig({
 
   // whether to use the default notion navigation style or a custom one with links to
   // important pages
-  navigationStyle: 'custom',
-  navigationLinks: [
-    {
-      title: '카테고리',
-      pageId: 'a8785e82ad0e43728b087f54fafcbe6b',
-    },
-  ],
+  // navigationStyle: 'custom',
+  // navigationLinks: [
+  //   {
+  //     title: '',
+  //     pageId: 'https://github.com/Lamyzm?page=1&tab=repositories',
+  //   },
+  // ],
   // -------- custom configs (2skydev) -------------
 
   // date-fns format string
