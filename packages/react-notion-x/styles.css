@@ -809,7 +809,7 @@ svg.notion-page-icon {
   max-height: 100%;
 }
 
-.notion-asset-wrapper div {
+.notion-asset-wrapper div:not(:has(img)) {
   width: 100% !important;
   height: 400px !important;
 }

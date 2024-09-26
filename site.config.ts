@@ -8,7 +8,7 @@ export default siteConfig({
   rootNotionSpaceId: 'eaa8cae3-750f-477e-9f30-3d5f233c3c32',
 
   name: 'Lamyzm blog',
-  domain: 'lnotion-next-js-blog-starter-kit-git-main-levijou-boos-projects.vercel.app',
+  domain: 'www.lamyzm.duckdns.org',
   author: '2skydev',
 
   // open graph metadata (optional)
