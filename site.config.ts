@@ -2,7 +2,9 @@ import { siteConfig } from './lib/site-config';
 
 export default siteConfig({
   // the site's root Notion page (required)
+
   rootNotionPageId: '04431c24227545c4bfda0261f136699f',
+
   // if you want to restrict pages to a single notion workspace (optional)
   // (this should be a Notion ID; see the docs for how to extract this)
   rootNotionSpaceId: 'eaa8cae3-750f-477e-9f30-3d5f233c3c32',
@@ -24,7 +26,9 @@ export default siteConfig({
   // default notion icon and cover images for site-wide consistency (optional)
   // page-specific values will override these site-wide defaults
   defaultPageIcon:
-    'https://private-user-images.githubusercontent.com/58257616/370933986-0acc3700-f0d2-48c9-8c35-450bddef7067.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3MjczMTE2MzQsIm5iZiI6MTcyNzMxMTMzNCwicGF0aCI6Ii81ODI1NzYxNi8zNzA5MzM5ODYtMGFjYzM3MDAtZjBkMi00OGM5LThjMzUtNDUwYmRkZWY3MDY3LnBuZz9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFWQ09EWUxTQTUzUFFLNFpBJTJGMjAyNDA5MjYlMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjQwOTI2VDAwNDIxNFomWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPThhMTUxNTYwMTFkYjE2MjMxYThjNmY3NzI4MTYzNWEwMWUzNzEwZTY4NTQ4MjdhZDA1NTM0ODdhMTQzNDBhYjkmWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0In0.ut7VvAxJMFMpza2wMkNJs53z2PJtY03jeZevYUzQSgw',
+    'https://file.notion.so/f/f/eaa8cae3-750f-477e-9f30-3d5f233c3c32/f6f4423c-fe57-4106-8fdc-39feb6d97274/98949f547786ebaadc147fb025bf98cb91528fabd1e780bb68c8fb108835cfdb.png?table=block&id=2b259c44-dba3-4ea8-96cb-34f064cd8ca0&spaceId=eaa8cae3-750f-477e-9f30-3d5f233c3c32&expirationTimestamp=1729072800000&signature=tLwAMgabXSkjRilsG24LaQ0HEhWSKGyjMt2zTAqd6JE&downloadName=98949f547786ebaadc147fb025bf98cb91528fabd1e780bb68c8fb108835cfdb.png',
+  // https://www.notion.so/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2Feaa8cae3-750f-477e-9f30-3d5f233c3c32%2Ff6f4423c-fe57-4106-8fdc-39feb6d97274%2F98949f547786ebaadc147fb025bf98cb91528fabd1e780bb68c8fb108835cfdb.png?table=block&id=04431c24-2275-45c4-bfda-0261f136699f&spaceId=eaa8cae3-750f-477e-9f30-3d5f233c3c32&width=250&userId=bfb6c5ab-9a81-4b86-ab4d-9d22f11f1f92&cache=v2
+
   defaultPageCover: null,
   defaultPageCoverPosition: 0.5,
 
@@ -48,13 +52,8 @@ export default siteConfig({
 
   // whether to use the default notion navigation style or a custom one with links to
   // important pages
-  // navigationStyle: 'custom',
-  // navigationLinks: [
-  //   {
-  //     title: '',
-  //     pageId: 'https://github.com/Lamyzm?page=1&tab=repositories',
-  //   },
-  // ],
+  navigationStyle: 'custom',
+  navigationLinks: [],
   // -------- custom configs (2skydev) -------------
 
   // date-fns format string

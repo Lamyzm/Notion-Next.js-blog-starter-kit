@@ -20,7 +20,7 @@ export const getStaticProps: GetStaticProps<PageProps, Params> = async context =
 
     // we don't want to publish the error version of this page, so
     // let next.js know explicitly that incremental SSG failed
-    throw err;
+    // throw err;
   }
 };
 

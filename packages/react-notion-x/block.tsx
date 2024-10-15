@@ -191,7 +191,6 @@ export const Block: React.FC<BlockProps> = props => {
 
                     {!isBlogPost ? (
                       <>
-                        <h3>Tag</h3>
                         <TagComponent tags={tags}></TagComponent>
                       </>
                     ) : (

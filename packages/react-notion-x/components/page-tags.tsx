@@ -25,38 +25,41 @@ const TagComponent = ({ tags }) => {
     return brightness > 128 ? '#000000' : '#FFFFFF';
   };
 
-  return (
-    <div
-      style={{
-        display: 'flex',
-        flexWrap: 'wrap',
-        gap: '8px',
-      }}
-    >
-      {tags?.map(tag => {
-        const bgColor = colorScheme[tag.color] || colorScheme.default;
-        const textColor = getTextColor(bgColor);
-        return (
-          <Link
-            key={tag.id}
-            href={`/tags/${tag.name}`}
-            style={{
-              backgroundColor: bgColor,
-              color: textColor,
-              padding: '0.25rem 0.75rem',
-              borderRadius: '9999px',
-              fontSize: '0.875rem',
-              fontWeight: '500',
-              textDecoration: 'none',
-              transition: 'opacity 0.3s ease-in-out',
-            }}
-          >
-            # {tag.name}
-          </Link>
-        );
-      })}
+  return tags ? (
+    <div>
+      <h3>Tag</h3>
+      <div
+        style={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          gap: '8px',
+        }}
+      >
+        {tags?.map(tag => {
+          const bgColor = colorScheme[tag.color] || colorScheme.default;
+          const textColor = getTextColor(bgColor);
+          return (
+            <Link
+              key={tag.id}
+              href={`/tags/${tag.name}`}
+              style={{
+                backgroundColor: bgColor,
+                color: textColor,
+                padding: '0.25rem 0.75rem',
+                borderRadius: '9999px',
+                fontSize: '0.875rem',
+                fontWeight: '500',
+                textDecoration: 'none',
+                transition: 'opacity 0.3s ease-in-out',
+              }}
+            >
+              # {tag.name}
+            </Link>
+          );
+        })}
+      </div>
     </div>
-  );
+  ) : null;
 };
 
 export default TagComponent;
