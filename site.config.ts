@@ -26,7 +26,7 @@ export default siteConfig({
   // default notion icon and cover images for site-wide consistency (optional)
   // page-specific values will override these site-wide defaults
   defaultPageIcon:
-    'https://file.notion.so/f/f/eaa8cae3-750f-477e-9f30-3d5f233c3c32/f6f4423c-fe57-4106-8fdc-39feb6d97274/98949f547786ebaadc147fb025bf98cb91528fabd1e780bb68c8fb108835cfdb.png?table=block&id=2b259c44-dba3-4ea8-96cb-34f064cd8ca0&spaceId=eaa8cae3-750f-477e-9f30-3d5f233c3c32&expirationTimestamp=1729072800000&signature=tLwAMgabXSkjRilsG24LaQ0HEhWSKGyjMt2zTAqd6JE&downloadName=98949f547786ebaadc147fb025bf98cb91528fabd1e780bb68c8fb108835cfdb.png',
+    'https://www.notion.so/image/https%3A%2F%2Fwalfiegif.files.wordpress.com%2F2020%2F11%2Fout-transparent-13.gif%3Fw%3D760%26zoom%3D2?table=block&id=c457b49e-c2ae-4abc-b0cd-7c314e7bd374&spaceId=eaa8cae3-750f-477e-9f30-3d5f233c3c32&userId=bfb6c5ab-9a81-4b86-ab4d-9d22f11f1f92&cache=v2',
   // https://www.notion.so/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2Feaa8cae3-750f-477e-9f30-3d5f233c3c32%2Ff6f4423c-fe57-4106-8fdc-39feb6d97274%2F98949f547786ebaadc147fb025bf98cb91528fabd1e780bb68c8fb108835cfdb.png?table=block&id=04431c24-2275-45c4-bfda-0261f136699f&spaceId=eaa8cae3-750f-477e-9f30-3d5f233c3c32&width=250&userId=bfb6c5ab-9a81-4b86-ab4d-9d22f11f1f92&cache=v2
 
   defaultPageCover: null,
