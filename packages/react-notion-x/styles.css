@@ -1133,6 +1133,7 @@ svg.notion-page-icon {
 
 .notion-collection {
   align-self: center;
+  withd: 310px;
   min-width: 100%;
 }
 
