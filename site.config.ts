@@ -26,7 +26,7 @@ export default siteConfig({
   // default notion icon and cover images for site-wide consistency (optional)
   // page-specific values will override these site-wide defaults
   defaultPageIcon:
-    'https://www.notion.so/image/https%3A%2F%2Fwalfiegif.files.wordpress.com%2F2020%2F11%2Fout-transparent-13.gif%3Fw%3D760%26zoom%3D2?table=block&id=c457b49e-c2ae-4abc-b0cd-7c314e7bd374&spaceId=eaa8cae3-750f-477e-9f30-3d5f233c3c32&userId=bfb6c5ab-9a81-4b86-ab4d-9d22f11f1f92&cache=v2',
+    'https://img.notionusercontent.com/s3/prod-files-secure%2Feaa8cae3-750f-477e-9f30-3d5f233c3c32%2Fc21ce26d-ae15-4f73-92dc-ea8a2dbdf2b6%2F4ce6291f931e9b8f386c82e3cb1fad5dd174eb8341785a70209605f4ce9f38a6.webp/size/w=250?exp=1734502222&sig=7tgaiXixM_EAK3jh1Pbg9adjgm9I2wof_-uX16ZznXg',
   // https://www.notion.so/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2Feaa8cae3-750f-477e-9f30-3d5f233c3c32%2Ff6f4423c-fe57-4106-8fdc-39feb6d97274%2F98949f547786ebaadc147fb025bf98cb91528fabd1e780bb68c8fb108835cfdb.png?table=block&id=04431c24-2275-45c4-bfda-0261f136699f&spaceId=eaa8cae3-750f-477e-9f30-3d5f233c3c32&width=250&userId=bfb6c5ab-9a81-4b86-ab4d-9d22f11f1f92&cache=v2
 
   defaultPageCover: null,
