@@ -17,6 +17,11 @@ export const defaultMapImageUrl = (url: string, block: Block) => {
     return url
   }
 
+  // 새로운 노션 파일 서버 URL은 그대로 사용
+  if (url.startsWith('https://file.notion.so')) {
+    return url
+  }
+
   try {
     const u = new URL(url)
 
