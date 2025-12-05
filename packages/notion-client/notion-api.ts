@@ -190,8 +190,10 @@ export class NotionAPI {
           } catch (err) {
             // It's possible for public pages to link to private collections, in which case
             // Notion returns a 400 error
-            console.warn('NotionAPI collectionQuery error', pageId, err.message);
-            console.error(err);
+            // 에러를 조용히 처리 (빌드 로그에 너무 많이 출력되지 않도록)
+            if (process.env.NODE_ENV === 'development') {
+              console.warn('NotionAPI collectionQuery error', pageId, err.message);
+            }
           }
         },
         {
@@ -276,7 +278,10 @@ export class NotionAPI {
           }
         }
       } catch (err) {
-        console.warn('NotionAPI getSignedfileUrls error', err);
+        // 에러를 조용히 처리 (빌드 로그에 너무 많이 출력되지 않도록)
+        if (process.env.NODE_ENV === 'development') {
+          console.warn('NotionAPI getSignedfileUrls error', err.message || err);
+        }
       }
     }
   }

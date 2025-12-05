@@ -12,6 +12,7 @@ module.exports = withBundleAnalyzer({
   images: {
     domains: [
       'file.notion.so',
+      'img.notionusercontent.com',
       'prod-files-secure.s3.us-west-2.amazonaws.com',
       'private-user-images.githubusercontent.com'
     ],
@@ -29,6 +30,18 @@ module.exports = withBundleAnalyzer({
       {
         protocol: 'https',
         hostname: 'notion.so',
+      },
+      {
+        protocol: 'https',
+        hostname: 'file.notion.so',
+      },
+      {
+        protocol: 'https',
+        hostname: 'img.notionusercontent.com',
+      },
+      {
+        protocol: 'https',
+        hostname: '**.notionusercontent.com',
       },
       {
         protocol: 'https',

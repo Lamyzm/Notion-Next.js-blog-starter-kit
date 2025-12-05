@@ -31,11 +31,19 @@ export const LazyImage: React.FC<{
 
   // 이미지 소스를 관리하는 상태 추가
   const [currentSrc, setCurrentSrc] = React.useState(src);
+  // Next.js Image 최적화 실패 시 일반 img 태그로 전환
+  const [useUnoptimized, setUseUnoptimized] = React.useState(false);
+
+  // src가 변경되면 상태 초기화
+  React.useEffect(() => {
+    setCurrentSrc(src);
+    setUseUnoptimized(false);
+  }, [src]);
 
   const zoomRef = React.useRef(zoom ? zoom.clone() : null);
   const previewImage = previewImages
-    ? recordMap?.preview_images?.[currentSrc] ??
-      recordMap?.preview_images?.[normalizeUrl(currentSrc)]
+    ? (recordMap?.preview_images?.[currentSrc] ??
+      recordMap?.preview_images?.[normalizeUrl(currentSrc)])
     : null;
 
   const onLoad = React.useCallback(
@@ -50,10 +58,38 @@ export const LazyImage: React.FC<{
   );
 
   const onError = React.useCallback(() => {
+    // Next.js Image 최적화가 실패한 경우 unoptimized로 전환
+    if (components.Image && !useUnoptimized) {
+      setUseUnoptimized(true);
+      return;
+    }
+
     if (fallbackSrc && currentSrc !== fallbackSrc) {
       setCurrentSrc(fallbackSrc); // 이미지 로드 실패 시 대체 이미지로 변경
+      return;
     }
-  }, [fallbackSrc, currentSrc]);
+
+    // file.notion.so 또는 img.notionusercontent.com URL이 실패하면
+    // www.notion.so/image를 통해 재시도
+    if (
+      currentSrc &&
+      (currentSrc.includes('file.notion.so') || currentSrc.includes('notionusercontent.com'))
+    ) {
+      try {
+        const blockId = currentSrc.match(/[?&]id=([^&]+)/)?.[1] || '';
+        const table = currentSrc.match(/[?&]table=([^&]+)/)?.[1] || 'block';
+
+        // www.notion.so/image를 통해 프록시 시도
+        const fallbackUrl = `https://www.notion.so/image/${encodeURIComponent(currentSrc)}?table=${table}&id=${blockId}&cache=v2`;
+        if (fallbackUrl !== currentSrc) {
+          setCurrentSrc(fallbackUrl);
+        }
+      } catch (e) {
+        // URL 변환 실패 시 무시
+        console.warn('Failed to create fallback image URL:', e);
+      }
+    }
+  }, [fallbackSrc, currentSrc, components.Image, useUnoptimized]);
 
   const attachZoom = React.useCallback(
     (image: any) => {
@@ -72,7 +108,7 @@ export const LazyImage: React.FC<{
   if (previewImage) {
     const aspectRatio = previewImage.originalHeight / previewImage.originalWidth;
 
-    if (components.Image) {
+    if (components.Image && !useUnoptimized) {
       return (
         <components.Image
           src={currentSrc}
@@ -85,7 +121,7 @@ export const LazyImage: React.FC<{
           placeholder="blur"
           priority={priority}
           onLoad={onLoad}
-          onError={onError} // 추가: onError 핸들러 전달
+          onError={onError}
         />
       );
     }
@@ -143,7 +179,7 @@ export const LazyImage: React.FC<{
       </LazyImageFull>
     );
   } else {
-    if (components.Image && forceCustomImages) {
+    if (components.Image && forceCustomImages && !useUnoptimized) {
       return (
         <components.Image
           src={currentSrc}
@@ -154,7 +190,7 @@ export const LazyImage: React.FC<{
           height={height || null}
           priority={priority}
           onLoad={onLoad}
-          onError={onError} // 추가: onError 핸들러 전달
+          onError={onError}
         />
       );
     }

@@ -30,19 +30,30 @@ export const getStaticProps = async a => {
 
     return {
       props: {
-        filteredPosts,
+        filteredPosts: filteredPosts || { results: [] },
         revalidate: 10,
       },
     };
   } catch (err) {
     console.error('page error', domain, err);
 
-    // we don't want to publish the error version of this page, so
-    // let next.js know explicitly that incremental SSG failed
-    throw err;
+    // 에러가 발생해도 빈 결과로 페이지를 생성
+    return {
+      props: {
+        filteredPosts: { results: [] },
+        revalidate: 10,
+      },
+    };
   }
 };
 export const getTagPosts = async contain => {
+  const apiKey = process.env.NOTION_API_KEY;
+  
+  if (!apiKey) {
+    console.warn('NOTION_API_KEY is not set. Skipping tag posts fetch.');
+    return { results: [] };
+  }
+
   const data = {
     filter: {
       property: '태그',
@@ -54,18 +65,24 @@ export const getTagPosts = async contain => {
 
   const config = {
     headers: {
-      Authorization: `Bearer ${process.env.NOTION_API_KEY}`,
+      Authorization: `Bearer ${apiKey}`,
       'Content-Type': 'application/json',
       'Notion-Version': '2022-06-28',
     },
   };
-  const response = await ky
-    .post('https://api.notion.com/v1/databases/4b9f229688d545aba687f7855e987ce3/query', {
-      headers: config.headers,
-      json: data,
-    })
-    .json();
-  return response;
+
+  try {
+    const response = await ky
+      .post('https://api.notion.com/v1/databases/4b9f229688d545aba687f7855e987ce3/query', {
+        headers: config.headers,
+        json: data,
+      })
+      .json();
+    return response;
+  } catch (error) {
+    console.error('Failed to fetch tag posts:', error);
+    return { results: [] };
+  }
 };
 
 export default function NotionDomainPage({ filteredPosts }) {

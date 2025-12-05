@@ -22,19 +22,26 @@ export const defaultMapImageUrl = (url: string, block: Block) => {
     return url
   }
 
+  // img.notionusercontent.com URL은 그대로 사용 (배포 환경에서 자주 사용됨)
+  if (url.includes('img.notionusercontent.com') || url.includes('notionusercontent.com')) {
+    return url
+  }
+
   try {
     const u = new URL(url)
 
-    if (
-      u.pathname.startsWith('/secure.notion-static.com') &&
-      u.hostname.endsWith('.amazonaws.com')
-    ) {
+    // AWS S3 URL 처리 (서명된 URL 포함)
+    if (u.hostname.endsWith('.amazonaws.com') || u.hostname.includes('s3.')) {
+      // 이미 서명된 URL이거나 S3 직접 URL인 경우 그대로 사용
       if (
         u.searchParams.has('X-Amz-Credential') &&
         u.searchParams.has('X-Amz-Signature') &&
         u.searchParams.has('X-Amz-Algorithm')
       ) {
-        // if the URL is already signed, then use it as-is
+        return url
+      }
+      // S3 URL이지만 서명이 없는 경우도 그대로 사용 (signed_urls에서 온 경우)
+      if (u.pathname.includes('secure.notion-static.com') || u.hostname.includes('prod-files-secure')) {
         return url
       }
     }
