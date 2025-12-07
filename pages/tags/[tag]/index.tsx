@@ -48,7 +48,7 @@ export const getStaticProps = async a => {
 };
 export const getTagPosts = async contain => {
   const apiKey = process.env.NOTION_API_KEY;
-  
+
   if (!apiKey) {
     console.warn('NOTION_API_KEY is not set. Skipping tag posts fetch.');
     return { results: [] };
@@ -114,8 +114,9 @@ export default function NotionDomainPage({ filteredPosts }) {
 
         <div style={{ width: '100%' }} className="postListWrap ">
           <div className={'notion-tag-posts'}>
-            {filteredPosts.results.map((val, idx) => {
-              console.log(val);
+            {filteredPosts.results?.map((val, idx) => {
+              if (!val) return null;
+
               const { id: postId, cover, properties } = val;
 
               const title = properties?.['이름']?.title?.[0]?.plain_text || siteConfig.name;
@@ -128,14 +129,18 @@ export default function NotionDomainPage({ filteredPosts }) {
                     day: 'numeric',
                   })
                 : siteConfig.domain;
+
+              // cover 이미지 URL 추출 (external 또는 file 타입 모두 지원)
+              const coverUrl = cover?.external?.url || cover?.file?.url || null;
+
               return (
-                <Link key={idx} href={'/' + postId} className="notion-tag-post">
+                <Link key={postId || idx} href={'/' + postId} className="notion-tag-post">
                   <div className="notion-tag-imgwrapper">
-                    {cover?.external.url ? (
+                    {coverUrl ? (
                       <Image
                         fill
                         style={{ objectFit: 'cover' }}
-                        src={cover.external.url}
+                        src={coverUrl}
                         alt="notion-post-cover-image"
                       />
                     ) : null}

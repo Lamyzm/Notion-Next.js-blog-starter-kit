@@ -30,6 +30,7 @@ export const PageIconImpl: React.FC<{
   if (isIconBlock(block)) {
     const icon = getBlockIcon(block, recordMap)?.trim() || defaultIcon;
     const title = getBlockTitle(block, recordMap);
+
     if (icon && isUrl(icon)) {
       const url = mapImageUrl(icon, block);
       isImage = true;
