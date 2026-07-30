@@ -27,27 +27,10 @@ export const defaultMapImageUrl = (url: string, block: Block) => {
     return url
   }
 
-  try {
-    const u = new URL(url)
-
-    // AWS S3 URL 처리 (서명된 URL 포함)
-    if (u.hostname.endsWith('.amazonaws.com') || u.hostname.includes('s3.')) {
-      // 이미 서명된 URL이거나 S3 직접 URL인 경우 그대로 사용
-      if (
-        u.searchParams.has('X-Amz-Credential') &&
-        u.searchParams.has('X-Amz-Signature') &&
-        u.searchParams.has('X-Amz-Algorithm')
-      ) {
-        return url
-      }
-      // S3 URL이지만 서명이 없는 경우도 그대로 사용 (signed_urls에서 온 경우)
-      if (u.pathname.includes('secure.notion-static.com') || u.hostname.includes('prod-files-secure')) {
-        return url
-      }
-    }
-  } catch {
-    // ignore invalid urls
-  }
+  // 노션 S3(prod-files-secure 등)의 서명된 URL은 1시간 후 만료되므로 그대로 쓰지 않는다.
+  // 아래 로직에서 https://www.notion.so/image/... 프록시로 감싸면, 노션이 요청 시마다
+  // 재서명해 주므로 URL이 만료되지 않고 상수로 관리해도 안전하다.
+  // (unsplash / file.notion.so / notionusercontent 는 위에서 이미 통과 처리됨)
 
   if (url.startsWith('/images')) {
     url = `https://www.notion.so${url}`
