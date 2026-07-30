@@ -89,7 +89,10 @@ export const Block: React.FC<BlockProps> = props => {
     disableHeader,
   } = props;
 
-  if (!block) {
+  // block.id가 없는 불완전 블록(권한 없는 transclusion, 삭제된 참조 등)은
+  // 렌더하지 않는다. uuidToId(block.id)에서 undefined.replace 크래시가 나
+  // 빌드 전체(프리렌더)가 실패하던 것을 방지.
+  if (!block || !block.id) {
     return null;
   }
 
