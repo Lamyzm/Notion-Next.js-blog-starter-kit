@@ -22,15 +22,30 @@ export const defaultMapImageUrl = (url: string, block: Block) => {
     return url
   }
 
-  // img.notionusercontent.com URL은 그대로 사용 (배포 환경에서 자주 사용됨)
-  if (url.includes('img.notionusercontent.com') || url.includes('notionusercontent.com')) {
-    return url
+  // img.notionusercontent.com URL은 exp/sig 서명이 붙어 1시간 뒤 만료된다(→ 아이콘 엑박).
+  // 그대로 두지 말고, 경로에 인코딩된 원본 S3 주소를 복원해 아래 프록시 로직으로 넘긴다.
+  // 형태: https://img.notionusercontent.com/s3/<encoded: prod-files-secure/KEY>/size/...?exp&sig
+  if (url.includes('notionusercontent.com')) {
+    const m = url.match(/\/s3\/([^/]+)/)
+    if (m) {
+      const decoded = decodeURIComponent(m[1]) // "prod-files-secure/<KEY>"
+      const slash = decoded.indexOf('/')
+      if (slash > 0) {
+        const bucket = decoded.slice(0, slash)
+        const key = decoded.slice(slash + 1)
+        url = `https://${bucket}.s3.us-west-2.amazonaws.com/${key}`
+      } else {
+        return url
+      }
+    } else {
+      return url
+    }
   }
 
-  // 노션 S3(prod-files-secure 등)의 서명된 URL은 1시간 후 만료되므로 그대로 쓰지 않는다.
+  // 노션 S3(prod-files-secure 등)의 서명된/무서명 URL은 만료되거나 접근 불가이므로 그대로 쓰지 않는다.
   // 아래 로직에서 https://www.notion.so/image/... 프록시로 감싸면, 노션이 요청 시마다
   // 재서명해 주므로 URL이 만료되지 않고 상수로 관리해도 안전하다.
-  // (unsplash / file.notion.so / notionusercontent 는 위에서 이미 통과 처리됨)
+  // (unsplash / file.notion.so 는 위에서 이미 통과 처리됨)
 
   if (url.startsWith('/images')) {
     url = `https://www.notion.so${url}`
