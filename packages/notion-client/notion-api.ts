@@ -7,6 +7,21 @@ import pMap from 'p-map';
 import * as types from './types';
 
 /**
+ * 노션 새 API 포맷은 block을 { value: { value: <block> } } 로 이중 중첩해 반환한다.
+ * 옛 포맷 { value: <block> } 를 기대하는 코드가 block.type 을 못 읽는 문제를 막기 위해
+ * value 안에 또 value 가 있고 바깥 value 에 type 이 없으면 한 단계 벗겨낸다. (멱등)
+ */
+function flattenNestedBlocks(recordMap: notion.ExtendedRecordMap): void {
+  if (!recordMap?.block) return;
+  for (const id of Object.keys(recordMap.block)) {
+    const entry: any = recordMap.block[id];
+    if (entry?.value?.value && !entry.value.type) {
+      entry.value = entry.value.value;
+    }
+  }
+}
+
+/**
  * Main Notion API client.
  */
 export class NotionAPI {
@@ -66,6 +81,11 @@ export class NotionAPI {
     if (!recordMap?.block) {
       throw new Error(`Notion page not found "${uuidToId(pageId)}"`);
     }
+
+    // FIX: 노션의 새 API 응답은 block을 { value: { value: block } } 로 이중 중첩해 반환한다.
+    // 다운스트림(컬렉션 탐지/렌더링/사이트맵)은 { value: block } 를 기대하므로 평탄화한다.
+    // 이걸 안 하면 block.type 을 못 읽어 컬렉션(글 목록)을 통째로 놓친다.
+    flattenNestedBlocks(recordMap);
 
     // CUSTOM: 작성자 유저 정보 가져오도록 처리
 
@@ -209,6 +229,9 @@ export class NotionAPI {
     if (signFileUrls) {
       await this.addSignedUrls({ recordMap, contentBlockIds, gotOptions });
     }
+
+    // FIX: 컬렉션 조회로 뒤늦게 병합된 row 블록들도 이중 중첩일 수 있어 한 번 더 평탄화한다.
+    flattenNestedBlocks(recordMap);
 
     return recordMap;
   }

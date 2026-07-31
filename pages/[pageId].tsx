@@ -25,26 +25,13 @@ export const getStaticProps: GetStaticProps<PageProps, Params> = async context =
 };
 
 export async function getStaticPaths() {
-  if (isDev) {
-    return {
-      paths: [],
-      fallback: true,
-    };
-  }
-
-  const siteMap = await getSiteMap();
-
-  const staticPaths = {
-    paths: Object.keys(siteMap.canonicalPageMap).map(pageId => ({
-      params: {
-        pageId,
-      },
-    })),
-    // paths: [],
-    fallback: true,
+  // 빌드 시 전체 스페이스를 크롤(getSiteMap)하면 글이 많아질수록 300초 타임아웃이 난다.
+  // 각 글은 최초 요청 시 ISR로 생성하고, 슬러그→페이지 해석은 런타임에서
+  // 캐시된 getSiteMap(1시간)이 처리한다.
+  return {
+    paths: [],
+    fallback: 'blocking' as const,
   };
-
-  return staticPaths;
 }
 
 export default function NotionDomainDynamicPage(props) {
