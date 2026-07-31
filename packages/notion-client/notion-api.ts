@@ -7,18 +7,28 @@ import pMap from 'p-map';
 import * as types from './types';
 
 /**
- * 노션 새 API 포맷은 block을 { value: { value: <block> } } 로 이중 중첩해 반환한다.
- * 옛 포맷 { value: <block> } 를 기대하는 코드가 block.type 을 못 읽는 문제를 막기 위해
- * value 안에 또 value 가 있고 바깥 value 에 type 이 없으면 한 단계 벗겨낸다. (멱등)
+ * 노션 새 API 포맷은 레코드를 { value: { value: <record> } } 로 이중 중첩해 반환한다.
+ * (block 뿐 아니라 collection, collection_view, notion_user 도 마찬가지)
+ * 옛 포맷 { value: <record> } 를 기대하는 코드가 .type/.schema 등을 못 읽어
+ * 글 목록·컬렉션 렌더가 통째로 깨지므로, 실제 레코드는 항상 .id 를 가진다는 점을 이용해
+ * 바깥 value 에 id 가 없고 안쪽 value.value 에 id 가 있으면 한 단계 벗겨낸다. (멱등)
  */
-function flattenNestedBlocks(recordMap: notion.ExtendedRecordMap): void {
-  if (!recordMap?.block) return;
-  for (const id of Object.keys(recordMap.block)) {
-    const entry: any = recordMap.block[id];
-    if (entry?.value?.value && !entry.value.type) {
+function flattenNestedRecords(map: any): void {
+  if (!map) return;
+  for (const id of Object.keys(map)) {
+    const entry: any = map[id];
+    if (entry?.value?.value?.id && !entry.value.id) {
       entry.value = entry.value.value;
     }
   }
+}
+
+function flattenNestedBlocks(recordMap: notion.ExtendedRecordMap): void {
+  if (!recordMap) return;
+  flattenNestedRecords(recordMap.block);
+  flattenNestedRecords(recordMap.collection);
+  flattenNestedRecords(recordMap.collection_view);
+  flattenNestedRecords((recordMap as any).notion_user);
 }
 
 /**
