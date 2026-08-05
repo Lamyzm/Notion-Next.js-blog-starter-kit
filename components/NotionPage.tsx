@@ -141,7 +141,6 @@ export const NotionPage: React.FC<Omit<types.PageProps, 'tagPosts'> & { tagPosts
   draftView,
   tagPosts,
 }) => {
-  console.log('tagPosts', tagPosts);
   const router = useRouter();
   const lite = useSearchParam('lite');
 
