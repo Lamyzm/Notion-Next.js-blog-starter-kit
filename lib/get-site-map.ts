@@ -5,6 +5,7 @@ import ExpiryMap from 'expiry-map';
 import { includeNotionIdInUrls } from './config';
 import { notion } from './notion-api';
 import { getCanonicalPageId } from './get-canonical-page-id';
+import { withNotionRetry } from './retry-notion';
 import * as config from './config';
 import * as types from './types';
 
@@ -37,10 +38,14 @@ async function getAllPagesImpl(
   // 루트를 딱 한 번 가져와 거기서 슬러그→pageId 매핑을 만든다.
   // (기존 getAllPagesInSpace는 글마다 개별 fetch + 재귀 + 재시도로 글이 많아지면
   //  런타임/빌드에서 300초 타임아웃이 났다. 이미지 signed-url도 사이트맵엔 불필요해 끈다.)
-  const recordMap = await notion.getPage(rootNotionPageId, {
-    signFileUrls: false,
-    fetchMissingBlocks: false,
-  });
+  // 여기가 실패하면 슬러그→pageId 매핑을 못 만들어 모든 글이 404가 된다.
+  // 게다가 실패 결과가 1시간 캐시에 들어가면 그동안 사이트 전체가 깨지므로 재시도한다.
+  const recordMap = await withNotionRetry(`getSiteMap(${rootNotionPageId})`, () =>
+    notion.getPage(rootNotionPageId, {
+      signFileUrls: false,
+      fetchMissingBlocks: false,
+    }),
+  );
 
   const rootId = parsePageId(rootNotionPageId) as string;
   const pageMap: types.SiteMap['pageMap'] = { [rootId]: recordMap } as any;

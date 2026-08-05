@@ -23,26 +23,28 @@ export const getStaticPaths: GetStaticPaths = async () => {
 };
 
 export const getStaticProps = async a => {
-  console.log('static prorp', a);
   try {
     const filteredPosts = await getTagPosts(a.params.tag);
-    // const props = await resolveNotionPage(domain);
 
     return {
       props: {
         filteredPosts: filteredPosts || { results: [] },
-        revalidate: 10,
       },
+      // revalidate는 props의 형제여야 한다.
+      // props 안에 넣으면 그냥 컴포넌트 prop으로 전달될 뿐이라 ISR이 동작하지 않고,
+      // 태그 페이지가 최초 생성된 시점에 영원히 멈춘다.
+      revalidate: 10,
     };
   } catch (err) {
     console.error('page error', domain, err);
 
-    // 에러가 발생해도 빈 결과로 페이지를 생성
+    // 태그 하나가 실패해도 사이트 전체가 죽지 않도록 빈 결과로 내보낸다.
+    // 다만 재검증 주기는 짧게 잡아 다음 요청에서 다시 시도하게 한다.
     return {
       props: {
         filteredPosts: { results: [] },
-        revalidate: 10,
       },
+      revalidate: 10,
     };
   }
 };

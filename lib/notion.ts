@@ -6,6 +6,7 @@ import pMemoize from 'p-memoize';
 import { isPreviewImageSupportEnabled, navigationStyle, navigationLinks } from './config';
 import { notion } from './notion-api';
 import { getPreviewImageMap } from './preview-images';
+import { withNotionRetry } from './retry-notion';
 
 const getNavigationLinkPages = pMemoize(async (): Promise<ExtendedRecordMap[]> => {
   const navigationLinkPageIds = (navigationLinks || []).map(link => link.pageId).filter(Boolean);
@@ -14,12 +15,14 @@ const getNavigationLinkPages = pMemoize(async (): Promise<ExtendedRecordMap[]> =
     return pMap(
       navigationLinkPageIds,
       async navigationLinkPageId =>
-        notion.getPage(navigationLinkPageId, {
-          chunkLimit: 1,
-          fetchMissingBlocks: false,
-          fetchCollections: false,
-          signFileUrls: false,
-        }),
+        withNotionRetry(`getPage(nav:${navigationLinkPageId})`, () =>
+          notion.getPage(navigationLinkPageId, {
+            chunkLimit: 1,
+            fetchMissingBlocks: false,
+            fetchCollections: false,
+            signFileUrls: false,
+          }),
+        ),
       {
         concurrency: 4,
       },
@@ -37,7 +40,11 @@ export async function getPage(
   pageId: string,
   options: GetPageOptions = {},
 ): Promise<ExtendedRecordMap> {
-  let recordMap = await notion.getPage(pageId, options);
+  // Notion이 데이터센터 IP에 간헐적으로 403을 준다.
+  // 여기서 실패하면 ISR 재생성이 통째로 깨지므로 재시도로 흡수한다.
+  let recordMap = await withNotionRetry(`getPage(${pageId})`, () =>
+    notion.getPage(pageId, options),
+  );
 
   if (navigationStyle !== 'default') {
     // ensure that any pages linked to in the custom navigation header have
