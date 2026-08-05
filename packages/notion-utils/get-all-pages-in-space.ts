@@ -91,9 +91,15 @@ export async function getAllPagesInSpace(
                     block.collection_id ||
                     page?.collection_view?.[defaultViewId]?.value?.format?.collection_pointer?.id;
 
+                  // 뷰가 그룹화된 경우 결과는 collection_group_results.blockIds에,
+                  // 그룹화되지 않은 일반 뷰는 blockIds에 바로 담긴다. 둘 다 대응하지 않으면
+                  // 사이트맵에 글이 하나도 안 잡혀(canonicalPageMap 비어) 모든 글이 404가 난다.
+                  const collectionView =
+                    page.collection_query?.[collectionId]?.[defaultViewId] as any;
                   const collectionChildPageIds =
-                    page.collection_query?.[collectionId]?.[defaultViewId]?.collection_group_results
-                      ?.blockIds || [];
+                    collectionView?.collection_group_results?.blockIds ||
+                    collectionView?.blockIds ||
+                    [];
 
                   // console.log('--');
                   // console.log('block:', block);
