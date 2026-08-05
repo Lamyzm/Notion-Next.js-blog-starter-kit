@@ -62,9 +62,13 @@ async function getAllPagesImpl(
     const collectionId =
       value.collection_id ||
       recordMap.collection_view?.[defaultViewId]?.value?.format?.collection_pointer?.id;
+    // 뷰가 그룹화된 경우 결과는 collection_group_results.blockIds에,
+    // 그룹화되지 않은 일반 뷰는 blockIds에 바로 담긴다.
+    // 둘 다 보지 않으면 canonicalPageMap이 비어 모든 글이 404가 나고,
+    // 그 빈 결과가 1시간 캐시에 그대로 들어간다.
+    const collectionView = (recordMap.collection_query as any)?.[collectionId]?.[defaultViewId];
     const blockIds =
-      (recordMap.collection_query as any)?.[collectionId]?.[defaultViewId]
-        ?.collection_group_results?.blockIds || [];
+      collectionView?.collection_group_results?.blockIds || collectionView?.blockIds || [];
     for (const id of blockIds) {
       childPageIds.add(id);
     }
