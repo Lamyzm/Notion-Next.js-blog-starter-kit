@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { GetStaticProps } from 'next';
+import { buildTimeFallback, isBuildPhase } from 'lib/build-phase';
 import { isDev, domain } from 'lib/config';
 import { getSiteMap } from 'lib/get-site-map';
 import { getTagDatabase } from 'lib/get-tag-database';
@@ -27,6 +28,10 @@ export const getStaticProps: GetStaticProps<PageProps, Params> = async context =
     };
   } catch (err) {
     console.error('page error', domain, rawPageId, err);
+
+    if (isBuildPhase()) {
+      return buildTimeFallback(err instanceof Error ? err.message : String(err));
+    }
 
     // 여기서 아무것도 반환하지 않으면 getStaticProps가 undefined를 돌려주고,
     // Next.js는 재생성 실패로 간주해 기존 페이지를 무한정 STALE로 내보낸다.
